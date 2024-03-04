@@ -1,0 +1,22 @@
+type boot_start, domain;
+type boot_start_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(boot_start)
+
+allow boot_start rootfs:dir r_dir_perms;
+allow boot_start vendor_shell_exec:file rx_file_perms;
+allow boot_start vendor_toolbox_exec:file rx_file_perms;
+allow boot_start vendor_file:file { execute execute_no_trans };
+allow boot_start toolbox_exec:file {open read map execute getattr execute_no_trans};
+allow boot_start shell_exec:file {execute read map getattr};
+allow boot_start boot_start:capability {dac_read_search};
+allow boot_start mnt_user_file:dir {search};
+allow boot_start system_file:file { getattr execute read open execute_no_trans map create };
+allow boot_start debugfs:file { getattr execute read write open create };
+allow boot_start boot_start:netlink_kobject_uevent_socket { write create setopt getopt bind read };
+
+r_dir_file(boot_start, sysfs_type)
+allow boot_start sysfs:file { read write getattr };
+
+set_prop(boot_start, vendor_boot_start_prop)
+

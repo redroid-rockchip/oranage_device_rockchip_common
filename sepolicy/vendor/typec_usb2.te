@@ -1,0 +1,22 @@
+type typec_usb2, domain;
+type typec_usb2_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(typec_usb2)
+
+allow typec_usb2 rootfs:dir r_dir_perms;
+allow typec_usb2 vendor_shell_exec:file rx_file_perms;
+allow typec_usb2 vendor_toolbox_exec:file rx_file_perms;
+allow typec_usb2 vendor_file:file { execute execute_no_trans };
+allow typec_usb2 toolbox_exec:file {open read map execute getattr execute_no_trans};
+allow typec_usb2 shell_exec:file {execute read map getattr};
+allow typec_usb2 typec_usb2:capability {dac_read_search};
+allow typec_usb2 mnt_user_file:dir {search};
+allow typec_usb2 system_file:file { getattr execute read open execute_no_trans map create };
+allow typec_usb2 debugfs:file { getattr execute read write open create };
+allow typec_usb2 typec_usb2:netlink_kobject_uevent_socket { write create setopt getopt bind read };
+
+r_dir_file(typec_usb2, sysfs_type)
+allow typec_usb2 sysfs:file { read write getattr };
+
+set_prop(typec_usb2, vendor_typec_usb2_prop)
+
